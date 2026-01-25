@@ -100,8 +100,9 @@ section {
 }
 
 .hero h1 {
-    font-size: clamp(3rem, 10vw, 6rem);
-    font-weight: 900;
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    font-weight: 800;
+    line-height: 0.85;
     margin-bottom: 10px;
     letter-spacing: -2px;
 }
@@ -122,7 +123,7 @@ section {
 
 .slide {
     height: 40px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 3px;
     color: #888;
@@ -350,4 +351,19 @@ input:focus, select:focus, textarea:focus {
     .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
     .hero h1 { font-size: 3.5rem; }
     .featured-project { padding: 30px; }
+}
+
+.footer {
+    padding: 30px 0 30px; 
+    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    text-align: center; 
+}
+
+.footer p {
+    font-size: 0.8rem;
+    font-weight: 300; 
+    letter-spacing: 1px;
+    color: var(--white);
+    opacity: 0.9; 
+    text-transform: uppercase;
 }

@@ -39,7 +39,7 @@
                 </div>
                 <p class="reveal-delay">Engineering scalable digital experiences with precision and speed.</p>
                 <div class="hero-btns reveal-delay">
-                    <a href="#experience" class="btn primary">View Work</a>
+                    <a href="#experience" class="btn primary">Portfolio</a>
                     <a href="#contact" class="btn secondary">Get In Touch</a>
                 </div>
             </div>
@@ -52,16 +52,22 @@
             <div class="about-grid">
                 <div class="about-text animate-on-scroll">
                     <p>I am a software developer focused on building practical, scalable digital products with strong attention to usability and clean architecture. My experience spans web and mobile development, bridging robust backend systems with intuitive, user-friendly interfaces.</p>
-                    <p>I’m passionate about solving real-world problems through thoughtful engineering, from production web platforms to AI-powered systems, ensuring every solution is maintainable, purposeful, and built to last.</p>
+                    <p>I'm passionate about solving real-world problems through thoughtful engineering, from production web platforms to AI-powered systems, ensuring every solution is maintainable, purposeful, and built to last.</p>
                 </div>
                 <div class="about-stats animate-on-scroll">
-                    <div class="stat-item">
-                        <span class="stat-num">07+</span>
-                        <span class="stat-label">Years Experience</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-num">50+</span>
-                        <span class="stat-label">Projects Delivered</span>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <div class="stat-number-wrapper">
+                                <span class="stat-num" data-target="7">0</span><span class="stat-plus">+</span>
+                            </div>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number-wrapper">
+                                <span class="stat-num" data-target="50">0</span><span class="stat-plus">+</span>
+                            </div>
+                            <span class="stat-label">Projects Delivered</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,30 +77,116 @@
     <section class="experience section" id="experience">
         <div class="container">
             <h2 class="section-title">Expertise</h2>
-            
-            <div class="skills-grid">
-                <div class="skill-card animate-on-scroll">
-                    <h3>JavaScript / MERN</h3>
-                    <p>Building robust web applications using MongoDB, Express, React, and Node.js.</p>
+
+            <div class="skills-wrapper animate-on-scroll">
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Frontend Development</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="bar-fill" data-width="95%"></div>
+                    </div>
                 </div>
-                <div class="skill-card animate-on-scroll">
-                    <h3>Mobile Development</h3>
-                    <p>Cross-platform excellence using <strong>Flutter</strong> and <strong>React Native</strong> for iOS/Android.</p>
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Backend & APIs</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="bar-fill" data-width="90%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Web & Mobile Apps</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="bar-fill" data-width="85%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Cloud & DevOps</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="bar-fill" data-width="80%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>UI/UX</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="bar-fill" data-width="90%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span>Strategic Consulting</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="bar-fill" data-width="100%"></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="featured-project animate-on-scroll">
-                <div class="project-tag">Specialization</div>
-                <h3>AI Conversational Intelligence</h3>
-                <p>Lead a cross-functional team to develop a sophisticated AI chatbot interface.</p>
-                <ul class="tech-stack">
-                    <li>OpenWebUI</li>
-                    <li>VLLM</li>
-                    <li>Advanced Prompt Engineering</li>
-                </ul>
             </div>
-        </div>
     </section>
+
+    <section class="portfolio section" id="portfolio">
+    <div class="container">
+        <h2 class="section-title">Portfolio</h2>
+        
+        <div class="portfolio-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="website">Websites</button>
+            <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
+            <button class="filter-btn" data-filter="custom">Custom Solutions</button>
+        </div>
+
+        <div class="portfolio-grid">
+            <div class="project-card animate-on-scroll" data-category="website">
+                <div class="project-image">
+                    <img src="project1.jpg" alt="Project One">
+                    <div class="project-overlay">
+                        <button class="view-project" data-project="1">View Details</button>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span>Websites</span>
+                    <h3>E-Commerce Platform</h3>
+                </div>
+            </div>
+
+            <div class="project-card animate-on-scroll" data-category="mobile">
+                <div class="project-image">
+                    <img src="project2.jpg" alt="Project Two">
+                    <div class="project-overlay">
+                        <button class="view-project" data-project="2">View Details</button>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span>Mobile Apps</span>
+                    <h3>Fitness Tracker App</h3>
+                </div>
+            </div>
+            
+            </div>
+    </div>
+</section>
+
+<div id="project-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modal-body">
+            </div>
+    </div>
+</div>
 
     <section class="awards section" id="awards">
         <div class="container">

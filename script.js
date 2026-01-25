@@ -9,11 +9,51 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
+
+                // NEW: Trigger Skill Bars Animation
+                if (entry.target.id === 'experience') {
+                    const bars = entry.target.querySelectorAll('.bar-fill');
+                    bars.forEach(bar => {
+                        bar.style.width = bar.getAttribute('data-width');
+                    });
+                }
+
+                // NEW: Trigger Number Counter Animation (Fixes the "7" and adds "+" fade-in)
+                if (entry.target.classList.contains('about-stats')) {
+                    const counters = entry.target.querySelectorAll('.stat-num');
+                    counters.forEach(counter => {
+                        // Check if already animated to prevent looping
+                        if (counter.classList.contains('done')) return;
+                        
+                        const target = +counter.getAttribute('data-target');
+                        const duration = 2000; // 2 seconds
+                        const stepTime = 30;
+                        const totalSteps = duration / stepTime;
+                        const increment = target / totalSteps;
+                        let currentCount = 0;
+
+                        const updateCount = () => {
+                            currentCount += increment;
+                            if (currentCount < target) {
+                                counter.innerText = Math.floor(currentCount);
+                                setTimeout(updateCount, stepTime);
+                            } else {
+                                counter.innerText = target;
+                                counter.classList.add('done');
+                                // Find the '+' next to it and fade it in
+                                const plus = counter.parentElement.querySelector('.stat-plus');
+                                if (plus) plus.classList.add('visible');
+                            }
+                        };
+                        updateCount();
+                    });
+                }
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    // Ensure we observe the sections for the new animations
+    document.querySelectorAll('.animate-on-scroll, #experience, .about-stats').forEach(el => {
         observer.observe(el);
     });
 
@@ -59,9 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Mobile Menu Placeholder ---
-    // (In a real scenario, you'd toggle a 'show' class on .nav-links)
     const mobileMenu = document.getElementById('mobile-menu');
     mobileMenu.addEventListener('click', () => {
+        // Keeping your alert as requested
         alert("Mobile menu would open here.");
     });
 });

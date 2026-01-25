@@ -97,6 +97,21 @@ section {
     align-items: center;
     justify-content: center;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+
+    /* The Stack: Vignette -> Dark Overlay -> Image */
+    background: 
+        /* 1. Radial Gradient for the Vignette effect (Center to Edges) */
+        radial-gradient(circle, rgba(10, 10, 10, 0.2) 0%, rgba(10, 10, 10, 1) 95%),
+        /* 2. Linear Gradient for overall text readability */
+        linear-gradient(rgba(10, 10, 10, 0.5), rgba(10, 10, 10, 0.5)),
+        /* 3. Your Image - Replace 'hero-bg.jpg' with your actual filename */
+        url('hero-bg.jpg');
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* This creates a subtle parallax effect on scroll */
 }
 
 .hero h1 {
@@ -126,7 +141,7 @@ section {
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 3px;
-    color: #888;
+    color: #dfdddd;
 }
 
 @keyframes slide-up {
@@ -196,7 +211,7 @@ section {
 .about-text p {
     margin-bottom: 20px;
     color: #ccc;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .about-stats {

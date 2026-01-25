@@ -1,0 +1,353 @@
+/* --- Variables & Reset --- */
+:root {
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --red: #ff3e3e;
+    --gray: #222222;
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--black);
+    color: var(--white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+section {
+    padding: 100px 0;
+}
+
+/* --- Navigation --- */
+.navbar {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(10, 10, 10, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    color: var(--red);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: var(--transition);
+    opacity: 0.7;
+}
+
+.nav-links a:hover {
+    color: var(--red);
+    opacity: 1;
+}
+
+/* --- Hero Section --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 900;
+    margin-bottom: 10px;
+    letter-spacing: -2px;
+}
+
+.hero h1 span {
+    color: var(--red);
+}
+
+.slider-wrapper {
+    height: 40px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.slider {
+    animation: slide-up 9s infinite;
+}
+
+.slide {
+    height: 40px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #888;
+}
+
+@keyframes slide-up {
+    0%, 25% { transform: translateY(0); }
+    33%, 58% { transform: translateY(-40px); }
+    66%, 91% { transform: translateY(-80px); }
+    100% { transform: translateY(0); }
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 35px;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    margin: 10px;
+}
+
+.btn.primary {
+    background: var(--red);
+    color: var(--white);
+}
+
+.btn.primary:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+.btn.secondary {
+    border: 1px solid var(--white);
+    color: var(--white);
+}
+
+.btn.secondary:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+/* --- Common UI --- */
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 40px;
+    height: 4px;
+    background: var(--red);
+}
+
+/* --- About Section --- */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+    color: #ccc;
+    font-size: 1.1rem;
+}
+
+.about-stats {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-num {
+    display: block;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--red);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #888;
+}
+
+/* --- Experience Section --- */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.skill-card {
+    background: #111;
+    padding: 40px;
+    border-left: 3px solid var(--gray);
+    transition: var(--transition);
+}
+
+.skill-card:hover {
+    border-left-color: var(--red);
+    transform: translateY(-5px);
+}
+
+.skill-card h3 {
+    margin-bottom: 15px;
+}
+
+.featured-project {
+    background: var(--white);
+    color: var(--black);
+    padding: 60px;
+    position: relative;
+}
+
+.project-tag {
+    background: var(--red);
+    color: var(--white);
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.tech-stack {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin-top: 25px;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+/* --- Awards --- */
+.awards-list {
+    border-top: 1px solid #333;
+}
+
+.award-item {
+    display: flex;
+    padding: 30px 0;
+    border-bottom: 1px solid #333;
+    align-items: center;
+}
+
+.award-year {
+    font-weight: 900;
+    color: var(--red);
+    margin-right: 50px;
+    font-size: 1.2rem;
+}
+
+/* --- Contact Section --- */
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+}
+
+.social-links {
+    margin-top: 30px;
+}
+
+.social-links a {
+    color: var(--white);
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--red);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 15px;
+    background: #111;
+    border: 1px solid #333;
+    color: var(--white);
+    font-family: inherit;
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--red);
+}
+
+#form-status {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+/* --- Animations --- */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 3.5rem; }
+    .featured-project { padding: 30px; }
+}

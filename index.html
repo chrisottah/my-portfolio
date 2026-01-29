@@ -45,6 +45,52 @@
         .cta-btn { background: var(--gradient); color: white !important; padding: 10px 24px; border-radius: 5px; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-block; border: none; }
         .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px var(--accent-glow); color: white !important; }
 
+        /* HAMBURGER STYLING */
+        .menu-toggle {
+            display: none; /* Hidden on desktop */
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1100;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-main);
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        /* MOBILE NAV DRAWER */
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+
+            .nav-links {
+                position: fixed;
+                right: -100%; /* Hidden off-screen to the right */
+                top: 0;
+                height: 100vh;
+                width: 70%; /* Takes up 70% of screen width */
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                border-left: 1px solid rgba(255, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                right: 0; /* Slides in */
+            }
+
+            /* Animation: Turn hamburger into an 'X' */
+            .menu-toggle.active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); background: var(--accent); }
+            .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); background: var(--accent); }
+        }
         /* --- HERO --- */
         #home {
             height: 100vh; display: flex; align-items: center; position: relative; padding-top: 120px;
@@ -146,7 +192,7 @@
             scrollbar-width: thin;
             scrollbar-color: #333 transparent;
         }
-        
+
         /* --- FOOTER --- */
         footer { border-top: 1px solid #1a1a1a; padding: 80px 0 40px; text-align: center; }
 
@@ -161,10 +207,17 @@
     <nav>
         <div class="container nav-content">
             <div class="logo">Christian Ottah<span style="color:var(--accent)">.</span></div>
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#projects">Work</a>
+            
+            <div class="menu-toggle" id="mobile-menu" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <div class="nav-links" id="nav-links">
+                <a href="#home" onclick="toggleMobileMenu()">Home</a>
+                <a href="#about" onclick="toggleMobileMenu()">About</a>
+                <a href="#projects" onclick="toggleMobileMenu()">Work</a>
                 <a href="https://github.com" target="_blank" class="cta-btn">GitHub</a>
             </div>
         </div>
@@ -363,22 +416,44 @@
                 </div>
                 <div style="margin-top:35px;"><a href="${data.link}" class="cta-btn">View Live Project</a></div>`;
             document.getElementById('projectModal').style.display = 'flex';
-
         }
 
         function closeProject() { document.getElementById('projectModal').style.display = 'none'; }
         
-        // Handle Modal & Chat closing on outside click
+        // Handle Modal closing on outside click
         window.onclick = (e) => { 
             if (e.target.className === 'modal') closeProject(); 
         }
 
-        // 3. NOVA AI (First Person Logic)
+        // 3. Mobile Navigation Logic
+        function toggleMobileMenu() {
+            if (window.innerWidth <= 768) {
+                const menu = document.getElementById('mobile-menu');
+                const links = document.getElementById('nav-links');
+                menu.classList.toggle('active');
+                links.classList.toggle('active');
+
+                // Prevent scrolling when menu is open
+                document.body.style.overflow = links.classList.contains('active') ? 'hidden' : 'auto';
+            }
+        }
+
+        // 4. NOVA AI (First Person Logic)
         let chatInitiated = false;
 
         function toggleChat() {
             const win = document.getElementById('chatWindow');
-            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+            if (win.style.display === 'flex') {
+                win.style.display = 'none';
+            } else {
+                win.style.display = 'flex';
+                setTimeout(() => document.getElementById('chatInput').focus(), 100);
+            }
+        }
+
+        function clearChat() {
+            const body = document.getElementById('chatBody');
+            body.innerHTML = '<div class="bot-msg">Chat cleared. I\'m ready for new questions!</div>';
         }
 
         function autoGreet(reason) {
@@ -393,10 +468,9 @@
             chatInitiated = true;
         }
 
-        // Trigger: 3 Minutes
+        // AI Triggers
         setTimeout(() => autoGreet('time'), 180000); 
 
-        // Trigger: Scroll to Contact Section
         window.addEventListener('scroll', () => {
             const contactSection = document.getElementById('contact');
             if(contactSection) {
@@ -410,14 +484,12 @@
         function addMsg(text, sender) {
             const body = document.getElementById('chatBody');
             const msg = document.createElement('div');
-            // Using the classes defined in your CSS
             msg.className = sender === 'user' ? 'user-msg' : 'bot-msg';
             msg.innerText = text;
             body.appendChild(msg);
             body.scrollTop = body.scrollHeight;
         }
 
-        // Simple Input Handler (Connect this to your HTML input later if needed)
         function handleUserInput() {
             const input = document.getElementById('chatInput');
             if(!input || !input.value) return;
@@ -436,6 +508,14 @@
 
             setTimeout(() => addMsg(response, 'bot'), 800);
         }
+
+        // Add "Enter" key support for the chat input
+        document.addEventListener('keypress', function (e) {
+            const input = document.getElementById('chatInput');
+            if (e.key === 'Enter' && document.activeElement === input) {
+                handleUserInput();
+            }
+        });
     </script>
 </body>
 </html>

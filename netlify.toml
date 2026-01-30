@@ -5,7 +5,6 @@
 [functions]
   node_bundler = "esbuild"
 
-# Order is vital: Any specific page routes go above the catch-all
 [[redirects]]
   from = "/*"
   to = "/index.html"

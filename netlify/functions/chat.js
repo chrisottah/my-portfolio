@@ -21,9 +21,9 @@ exports.handler = async (event, context) => {
     // Parse the incoming message
     const { message } = JSON.parse(event.body);
     
-    // Call Gemini API using built-in fetch (Node 18+)
+    // Call Gemini API - UPDATED URL with v1beta and correct model
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: {

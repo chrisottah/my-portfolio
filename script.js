@@ -59,10 +59,7 @@ function toggleMobileMenu() {
     }
 }
 
-// 4. AI CHATBOT WITH GOOGLE GEMINI API
-const GEMINI_API_KEY = 'AIzaSyDRA-1WfV9P4QHGFwtJHEslbFsFmCcVcUo';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent';
-
+// 4. AI CHATBOT WITH GOOGLE GEMINI API (NOW SECURE VIA NETLIFY!)
 let chatInitiated = false;
 let conversationHistory = [];
 let isTyping = false;
@@ -524,9 +521,10 @@ function removeTypingIndicator() {
     if (indicator) indicator.remove();
 }
 
+// ✅ THIS IS THE ONLY FUNCTION THAT CHANGED - Now calls Netlify function instead of Gemini directly
 async function callGeminiAPI(userMessage) {
     try {
-        // Build conversation context
+        // Build conversation context (same as before)
         let fullPrompt = CHRISTIAN_CONTEXT + "\n\n## Conversation History:\n";
         
         conversationHistory.forEach(msg => {
@@ -535,28 +533,21 @@ async function callGeminiAPI(userMessage) {
         
         fullPrompt += `User: ${userMessage}\nNova:`;
 
-        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+        // Call Netlify function instead of Gemini API directly
+        const response = await fetch('/.netlify/functions/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: fullPrompt
-                    }]
-                }],
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 500,
-                    topP: 0.8,
-                    topK: 40
-                }
+                message: fullPrompt
             })
         });
 
         if (!response.ok) {
-            throw new Error(`API Error: ${response.status}`);
+            const errorData = await response.json();
+            console.error('API Error:', errorData);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
@@ -579,7 +570,7 @@ async function callGeminiAPI(userMessage) {
         }
 
     } catch (error) {
-        console.error('Gemini API Error:', error);
+        console.error('Chatbot Error:', error);
         return "I'm having trouble connecting right now. Please reach out to Christian directly at themystictechie@gmail.com or call +234 803 495 4849.";
     }
 }

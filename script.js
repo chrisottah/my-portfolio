@@ -540,7 +540,8 @@ async function callGeminiAPI(userMessage) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                message: fullPrompt
+               message: userMessage, // Just send the user's current question
+               history: conversationHistory // Send history as an array, not a giant string
             })
         });
 
@@ -551,21 +552,23 @@ async function callGeminiAPI(userMessage) {
         }
 
         const data = await response.json();
+
+        const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
         
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-            const aiResponse = data.candidates[0].content.parts[0].text;
-            
+        if (aiResponse) {
             // Store in conversation history
             conversationHistory.push({ role: 'User', content: userMessage });
             conversationHistory.push({ role: 'Nova', content: aiResponse });
             
-            // Keep only last 10 exchanges to manage context size
+            // Keep only last 10 exchanges (20 entries)
             if (conversationHistory.length > 20) {
                 conversationHistory = conversationHistory.slice(-20);
             }
             
             return aiResponse;
         } else {
+            // This logs the ACTUAL error from Google so you can see it in F12 console
+            console.error("Gemini rejected the prompt or sent an error:", data);
             throw new Error('Unexpected API response format');
         }
 

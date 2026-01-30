@@ -5,6 +5,11 @@
 [functions]
   node_bundler = "esbuild"
 
+# Order matters: Functions first, then the SPA redirect
+[[redirects]]
+  from = "/.netlify/functions/*"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

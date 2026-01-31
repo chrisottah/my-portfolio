@@ -533,7 +533,7 @@ async function callGeminiAPI(userMessage) {
         fullPrompt += `User: ${userMessage}\nNova:`;
 
         // Call Netlify function
-        const response = await fetch('/.netlify/functions/chat', {
+        const response = await fetch('https://portfolio-chatbot-chris.workers.dev', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: fullPrompt })

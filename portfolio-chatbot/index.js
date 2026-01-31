@@ -7,6 +7,18 @@
 export default {
   async fetch(request, env) {
     try {
+      // === HANDLE CORS PRE-FLIGHT ===
+      if (request.method === 'OPTIONS') {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type'
+          }
+        });
+      }
+
       // Only accept POST requests
       if (request.method !== 'POST') {
         return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
@@ -25,7 +37,6 @@ export default {
       }
 
       // === CALL GEMINI API ===
-      // Replace GEMINI_API_KEY with your actual key in Workers environment variables
       const GEMINI_API_KEY = env.GEMINI_API_KEY;
 
       const apiResponse = await fetch(
@@ -48,12 +59,10 @@ export default {
 
       const data = await apiResponse.json();
 
-      // Ensure proper structure
       const responseText =
         data?.candidates?.[0]?.content?.parts?.[0]?.text ||
         "I'm having trouble generating a response. Please contact Christian directly:\n📧 themystictechie@gmail.com\n📱 WhatsApp: +234 803 495 4849";
 
-      // Respond with same structure your frontend expects
       return new Response(
         JSON.stringify({
           candidates: [
@@ -91,7 +100,13 @@ export default {
             }
           ]
         }),
-        { status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } }
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        }
       );
     }
   }

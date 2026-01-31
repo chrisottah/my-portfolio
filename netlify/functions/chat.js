@@ -13,7 +13,7 @@ exports.handler = async (event) => {
     const apiKey = process.env.GEMINI_API_KEY;
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -24,9 +24,7 @@ exports.handler = async (event) => {
     );
 
     const data = await response.json();
-
-    // Log this in your Netlify Function logs so you can see the raw output
-    console.log("Gemini Raw Response:", JSON.stringify(data));
+    console.log("Gemini Response:", JSON.stringify(data));
 
     return {
       statusCode: response.ok ? 200 : response.status,

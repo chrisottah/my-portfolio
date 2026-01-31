@@ -521,10 +521,9 @@ function removeTypingIndicator() {
     if (indicator) indicator.remove();
 }
 
-// ✅ THIS IS THE ONLY FUNCTION THAT CHANGED - Now calls Netlify function instead of Gemini directly
 async function callGeminiAPI(userMessage) {
     try {
-        // Build conversation context (same as before)
+        // Build conversation context
         let fullPrompt = CHRISTIAN_CONTEXT + "\n\n## Conversation History:\n";
         
         conversationHistory.forEach(msg => {
@@ -533,42 +532,40 @@ async function callGeminiAPI(userMessage) {
         
         fullPrompt += `User: ${userMessage}\nNova:`;
 
-        // Call Netlify function instead of Gemini API directly
+        // Call Netlify function
         const response = await fetch('/.netlify/functions/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-               message: userMessage, // Just send the user's current question
-               history: conversationHistory // Send history as an array, not a giant string
+                message: fullPrompt  // Send the full prompt with context
             })
         });
 
         if (!response.ok) {
             const errorData = await response.json();
             console.error('API Error:', errorData);
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);  // FIXED: Added parenthesis
         }
 
         const data = await response.json();
-
-        const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
         
-        if (aiResponse) {
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+            const aiResponse = data.candidates[0].content.parts[0].text;
+            
             // Store in conversation history
             conversationHistory.push({ role: 'User', content: userMessage });
             conversationHistory.push({ role: 'Nova', content: aiResponse });
             
-            // Keep only last 10 exchanges (20 entries)
+            // Keep only last 10 exchanges
             if (conversationHistory.length > 20) {
                 conversationHistory = conversationHistory.slice(-20);
             }
             
             return aiResponse;
         } else {
-            // This logs the ACTUAL error from Google so you can see it in F12 console
-            console.error("Gemini rejected the prompt or sent an error:", data);
+            console.error("Unexpected response format:", data);
             throw new Error('Unexpected API response format');
         }
 

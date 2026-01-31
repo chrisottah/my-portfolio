@@ -29,9 +29,9 @@ exports.handler = async (event) => {
       };
     }
 
-    // Use stable Gemini Pro model
+    // Use current Gemini model
     const response = await fetch(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent',
       {
         method: 'POST',
         headers: {

@@ -523,7 +523,7 @@ function removeTypingIndicator() {
 
 async function callGeminiAPI(userMessage) {
     try {
-        // Build conversation context
+        // Build full context with conversation history
         let fullPrompt = CHRISTIAN_CONTEXT + "\n\n## Conversation History:\n";
         
         conversationHistory.forEach(msg => {
@@ -535,43 +535,40 @@ async function callGeminiAPI(userMessage) {
         // Call Netlify function
         const response = await fetch('/.netlify/functions/chat', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: fullPrompt  // Send the full prompt with context
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: fullPrompt })
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
+            const errorData = await response.json().catch(() => ({}));
             console.error('API Error:', errorData);
-            throw new Error(`HTTP error! status: ${response.status}`);  // FIXED: Added parenthesis
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
         
+        // Extract AI response
         if (data.candidates && data.candidates[0] && data.candidates[0].content) {
             const aiResponse = data.candidates[0].content.parts[0].text;
             
-            // Store in conversation history
+            // Store in history
             conversationHistory.push({ role: 'User', content: userMessage });
             conversationHistory.push({ role: 'Nova', content: aiResponse });
             
-            // Keep only last 10 exchanges
+            // Keep last 10 exchanges
             if (conversationHistory.length > 20) {
                 conversationHistory = conversationHistory.slice(-20);
             }
             
             return aiResponse;
         } else {
-            console.error("Unexpected response format:", data);
+            console.error("Unexpected response:", data);
             throw new Error('Unexpected API response format');
         }
 
     } catch (error) {
         console.error('Chatbot Error:', error);
-        return "I'm having trouble connecting right now. Please reach out to Christian directly at themystictechie@gmail.com or call +234 803 495 4849.";
+        return "I'm having trouble connecting right now. Please reach out to Christian directly:\n\n📧 themystictechie@gmail.com\n📱 WhatsApp: +234 803 495 4849";
     }
 }
 

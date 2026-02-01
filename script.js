@@ -59,7 +59,10 @@ function toggleMobileMenu() {
     }
 }
 
-// 4. AI CHATBOT WITH GOOGLE GEMINI API (NOW SECURE VIA NETLIFY!)
+// 4. AI CHATBOT WITH GOOGLE GEMINI API
+const GEMINI_API_KEY = 'AIzaSyCFqEmwQyweOpSwg0H99gCct_04L11vGns';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
+
 let chatInitiated = false;
 let conversationHistory = [];
 let isTyping = false;
@@ -523,7 +526,7 @@ function removeTypingIndicator() {
 
 async function callGeminiAPI(userMessage) {
     try {
-        // Build full context with conversation history
+        // Build conversation context
         let fullPrompt = CHRISTIAN_CONTEXT + "\n\n## Conversation History:\n";
         
         conversationHistory.forEach(msg => {
@@ -532,43 +535,55 @@ async function callGeminiAPI(userMessage) {
         
         fullPrompt += `User: ${userMessage}\nNova:`;
 
-        // Call Netlify function
-        const response = await fetch('https://portfolio-chatbot.portfolio-chatbot-chris.workers.dev', {
+        // Call Gemini API directly with restricted key
+        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: fullPrompt })
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: fullPrompt
+                    }]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 500,
+                    topP: 0.8,
+                    topK: 40
+                }
+            })
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            console.error('API Error:', errorData);
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorData = await response.json();
+            console.error('Gemini API Error:', errorData);
+            throw new Error(`API Error: ${response.status}`);
         }
 
         const data = await response.json();
         
-        // Extract AI response
         if (data.candidates && data.candidates[0] && data.candidates[0].content) {
             const aiResponse = data.candidates[0].content.parts[0].text;
             
-            // Store in history
+            // Store in conversation history
             conversationHistory.push({ role: 'User', content: userMessage });
             conversationHistory.push({ role: 'Nova', content: aiResponse });
             
-            // Keep last 10 exchanges
+            // Keep only last 10 exchanges
             if (conversationHistory.length > 20) {
                 conversationHistory = conversationHistory.slice(-20);
             }
             
             return aiResponse;
         } else {
-            console.error("Unexpected response:", data);
             throw new Error('Unexpected API response format');
         }
 
     } catch (error) {
         console.error('Chatbot Error:', error);
-        return "I'm having trouble connecting right now. Please reach out to Christian directly:\n\n📧 themystictechie@gmail.com\n📱 WhatsApp: +234 803 495 4849";
+        return "I'm having trouble connecting right now. Please reach out to Christian directly at themystictechie@gmail.com or +234 803 495 4849.";
     }
 }
 

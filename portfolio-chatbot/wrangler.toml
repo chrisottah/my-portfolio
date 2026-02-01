@@ -1,5 +1,0 @@
-name = "portfolio-chatbot"
-main = "index.js"
-compatibility_date = "2026-01-31"
-workers_dev = true
-preview_urls = true

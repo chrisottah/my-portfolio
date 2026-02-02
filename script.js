@@ -60,8 +60,8 @@ function toggleMobileMenu() {
 }
 
 // 4. AI CHATBOT WITH GOOGLE GEMINI API
-const GEMINI_API_KEY = 'AIzaSyCFqEmwQyweOpSwg0H99gCct_04L11vGns';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+const GEMINI_API_KEY = 'AIzaSyBwmXUX7JWAufSO6J3seI6QcEG8kJ4LSyE';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent';
 
 let chatInitiated = false;
 let conversationHistory = [];

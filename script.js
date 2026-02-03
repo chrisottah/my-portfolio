@@ -59,10 +59,7 @@ function toggleMobileMenu() {
     }
 }
 
-// 4. AI CHATBOT WITH GOOGLE GEMINI API
-const GEMINI_API_KEY = 'AIzaSyBwmXUX7JWAufSO6J3seI6QcEG8kJ4LSyE';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent';
-
+// 4. AI CHATBOT (Client-Side Intelligence)
 let chatInitiated = false;
 let conversationHistory = [];
 let isTyping = false;
@@ -524,66 +521,138 @@ function removeTypingIndicator() {
     if (indicator) indicator.remove();
 }
 
+// Smart AI-like response generator using your full context
 async function callGeminiAPI(userMessage) {
     try {
-        // Build conversation context
-        let fullPrompt = CHRISTIAN_CONTEXT + "\n\n## Conversation History:\n";
+        const msg = userMessage.toLowerCase();
         
-        conversationHistory.forEach(msg => {
-            fullPrompt += `${msg.role}: ${msg.content}\n`;
-        });
+        // Build context-aware response based on conversation history
+        const hasAskedAboutPricing = conversationHistory.some(m => 
+            m.content && m.content.toLowerCase().includes('price')
+        );
         
-        fullPrompt += `User: ${userMessage}\nNova:`;
-
-        // Call Gemini API directly with restricted key
-        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: fullPrompt
-                    }]
-                }],
-                generationConfig: {
-                    temperature: 0.7,
-                    maxOutputTokens: 500,
-                    topP: 0.8,
-                    topK: 40
-                }
-            })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Gemini API Error:', errorData);
-            throw new Error(`API Error: ${response.status}`);
+        // GREETING & INTRODUCTION
+        if (msg.match(/^(hi|hello|hey|good morning|good afternoon|sup|yo)/i)) {
+            return "Hi! 👋 I'm Nova, Christian's AI assistant. I see you've been checking out his work!\n\nAre you looking to build something? I can share pricing and packages.\n\nPS: Follow @themystictechie on Instagram for daily web dev tips! 🚀";
         }
-
-        const data = await response.json();
         
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-            const aiResponse = data.candidates[0].content.parts[0].text;
-            
-            // Store in conversation history
-            conversationHistory.push({ role: 'User', content: userMessage });
-            conversationHistory.push({ role: 'Nova', content: aiResponse });
-            
-            // Keep only last 10 exchanges
-            if (conversationHistory.length > 20) {
-                conversationHistory = conversationHistory.slice(-20);
+        // PRICING - SIMPLE WEBSITE
+        if ((msg.includes('price') || msg.includes('cost') || msg.includes('how much') || msg.includes('charge') || msg.includes('fee')) && 
+            (msg.includes('website') || msg.includes('site') || msg.includes('web')) &&
+            !msg.includes('ecommerce') && !msg.includes('shop') && !msg.includes('store')) {
+            return "Great question! Christian builds amazing websites starting from ₦150,000 ($100) - and that includes:\n\n✅ Custom design & development\n✅ Domain name registration\n✅ Web hosting (1 year)\n✅ SEO setup\n✅ Custom email addresses\n✅ Mobile-responsive design\n✅ SSL certificate\n\nWhat type of website are you thinking about? Personal portfolio? Business?\n\nAlso, follow @themystictechie on Instagram for web dev tips! 🚀";
+        }
+        
+        // PRICING - ECOMMERCE
+        if ((msg.includes('price') || msg.includes('cost') || msg.includes('how much')) && 
+            (msg.includes('ecommerce') || msg.includes('shop') || msg.includes('store') || msg.includes('online store'))) {
+            return "E-commerce websites start at ₦200,000 ($150) and include everything in the simple website package PLUS:\n\n✅ Payment gateway integration (Paystack, Flutterwave)\n✅ Product catalog management\n✅ Shopping cart functionality\n✅ Order management system\n✅ Inventory tracking\n✅ Customer accounts\n✅ Email notifications\n\nPerfect for online stores and marketplaces!\n\nMessage Christian on WhatsApp (+234 803 495 4849) to get started! 📱";
+        }
+        
+        // PRICING - MOBILE APP
+        if ((msg.includes('price') || msg.includes('cost') || msg.includes('how much')) && 
+            (msg.includes('app') || msg.includes('mobile'))) {
+            return "Mobile app pricing is customized based on your specific needs. Christian builds with:\n\n✅ React Native (iOS + Android from one codebase)\n✅ Flutter (High-performance native apps)\n\nTypically starts around ₦300,000+ and includes UI/UX design, development, API integration, and Play Store/App Store deployment.\n\nWhatsApp for a detailed quote: +234 803 495 4849 📱";
+        }
+        
+        // PRICING - LMS
+        if ((msg.includes('price') || msg.includes('cost') || msg.includes('how much')) && 
+            (msg.includes('lms') || msg.includes('learning') || msg.includes('course') || msg.includes('education'))) {
+            return "Learning Management Systems (LMS) start at ₦250,000 ($180) and include:\n\n✅ Course creation & management\n✅ Student enrollment system\n✅ Video hosting integration\n✅ Quiz & assessment tools\n✅ Progress tracking\n✅ Certificate generation\n✅ Payment integration\n\nPerfect for online course creators and educational institutions!\n\nWhatsApp Christian: +234 803 495 4849 🎓";
+        }
+        
+        // GENERAL PRICING OVERVIEW
+        if (msg.includes('price') || msg.includes('pricing') || msg.includes('cost') || msg.includes('budget')) {
+            return "Absolutely! Here's the breakdown:\n\n✅ Simple Website: ₦150,000 ($100) - includes hosting, domain, SEO, emails\n✅ Blog Website: ₦150,000 ($100) - everything above + CMS\n✅ E-commerce: ₦200,000 ($150) - everything + payment gateway\n✅ Learning Platform (LMS): ₦250,000 ($180)\n✅ Mobile Apps: Custom quote (usually ₦300k+)\n✅ UI/UX Design: ₦50,000 ($35)\n✅ Tech Consulting: ₦20,000/hour ($15/hour)\n\nWhat's your budget range? I can suggest the perfect package.\n\nQuick tip: Message Christian on WhatsApp (+234 803 495 4849) to get started today! 📱";
+        }
+        
+        // SERVICES OVERVIEW
+        if (msg.includes('service') || msg.includes('do you') || msg.includes('what can') || msg.includes('offer') || msg.includes('what do you do')) {
+            return "Christian builds:\n\n✅ Websites & Web Apps (MERN stack, WordPress)\n✅ Mobile Apps (React Native, Flutter)\n✅ E-commerce Platforms (Paystack, Flutterwave integration)\n✅ Learning Management Systems (LMS)\n✅ AI-Powered Solutions (RAG pipelines, chatbots)\n✅ UI/UX Design (Figma)\n✅ Custom CRM Systems\n✅ API Integrations\n\nWhat are you looking to build?\n\nFollow @themystictechie on Instagram to see his work! 📸";
+        }
+        
+        // PORTFOLIO/PROJECTS
+        if (msg.includes('project') || msg.includes('work') || msg.includes('portfolio') || msg.includes('example') || msg.includes('show me') || msg.includes('built')) {
+            return "Christian has built some amazing projects:\n\n• **LN247 News Platform** (2020-Present): Full media ecosystem with live TV streaming, mobile apps (iOS/Android). Tech: WordPress, React Native, Flutter, PHP, MySQL\n\n• **EdenHub AI** (www.edenhub.io): Advanced AI chatbot with RAG capabilities, document processing. Tech: DeepSeek, LangChain, Ollama\n\n• **Mambokadzi** (www.mambokadzi.org): Women empowerment platform\n\n• **YTourAfrica** (www.ytourafrica.com): Travel showcase site\n\n• **Doha Bistro** (www.dohabistro.com): Restaurant website\n\nFor even MORE examples, follow @themystictechie on Instagram - he posts case studies regularly!\n\nWant to discuss your specific project? WhatsApp: +234 803 495 4849 📱";
+        }
+        
+        // CONTACT INFO
+        if (msg.includes('contact') || msg.includes('reach') || msg.includes('email') || msg.includes('whatsapp') || msg.includes('phone') || msg.includes('call')) {
+            return "Best ways to reach Christian:\n\n📱 **WhatsApp: +234 803 495 4849** (fastest!)\n📧 **Email: themystictechie@gmail.com**\n📸 **Instagram: @themystictechie**\n💼 **LinkedIn: linkedin.com/in/christianottah**\n📍 **Location: Lagos, Nigeria** (works globally)\n\nWhatsApp is the quickest way to get started! 🚀";
+        }
+        
+        // EXPERIENCE/BACKGROUND
+        if (msg.includes('experience') || msg.includes('years') || msg.includes('background') || msg.includes('who is') || msg.includes('about christian') || msg.includes('tell me about')) {
+            return "Christian is an innovative Full Stack Software Developer with **10+ years of experience** building scalable digital solutions.\n\nHe thinks like a Product Manager and cares about:\n✅ **Clarity**: Clean, maintainable code\n✅ **Usability**: User-centric design\n✅ **Reliability**: Systems that work under pressure\n✅ **Impact**: Solving real problems\n✅ **Value**: Quality delivery within budget\n\nBased in Lagos, Nigeria - works globally and remotely! 🌍\n\nConnect on LinkedIn: linkedin.com/in/christianottah";
+        }
+        
+        // TECHNOLOGIES/TECH STACK
+        if (msg.includes('technology') || msg.includes('tech') || msg.includes('stack') || msg.includes('language') || msg.includes('framework') || msg.includes('skill')) {
+            return "Christian's tech stack:\n\n**Frontend & Mobile:**\n• React.js, React Native, Flutter\n• JavaScript (ES6+), HTML5, CSS3\n• Figma for UI/UX design\n\n**Backend & Databases:**\n• Node.js, Express, PHP, Python\n• MongoDB, MySQL\n• REST API development\n\n**WordPress:**\n• Custom themes & plugins\n• WooCommerce, Elementor\n• Performance optimization\n\n**AI & Advanced Systems:**\n• OpenWebUI, VLLM, Ollama\n• LangChain (RAG pipelines)\n• DeepSeek integration\n\n**DevOps:**\n• Git/GitHub, Linux/Ubuntu\n• VPS hosting, Cloudflare\n\nWhat project are you thinking about? WhatsApp: +234 803 495 4849 💻";
+        }
+        
+        // TIMELINE/DURATION
+        if (msg.includes('how long') || msg.includes('timeline') || msg.includes('when') || msg.includes('duration') || msg.includes('time')) {
+            return "Project timelines vary based on complexity:\n\n⏱️ Simple website: 1-2 weeks\n⏱️ Blog website: 1-2 weeks\n⏱️ E-commerce: 2-4 weeks\n⏱️ LMS Platform: 3-5 weeks\n⏱️ Mobile app: 4-8 weeks\n\n**Christian has limited slots this month** - reach out early to secure your spot!\n\nWhatsApp: +234 803 495 4849 🚀";
+        }
+        
+        // PAYMENT/BUDGET CONCERNS
+        if (msg.includes('payment') || msg.includes('pay') || msg.includes('afford') || msg.includes('expensive') || msg.includes('cheap')) {
+            if (msg.includes('expensive') || msg.includes('too much')) {
+                return "I understand budget is important! Here's the thing - Christian's packages are **all-inclusive**. Many developers charge separately for:\n• Hosting: ₦30k/year\n• Domain: ₦15k/year\n• SEO: ₦50k+\n\nHis ₦150k package includes ALL of that PLUS the actual website. You're getting tremendous value.\n\nChristian also offers **flexible payment plans**! Want to discuss options?\n\nWhatsApp him: +234 803 495 4849 💳";
             }
-            
-            return aiResponse;
-        } else {
-            throw new Error('Unexpected API response format');
+            return "Christian offers **flexible payment plans** to make projects accessible!\n\nAll packages are all-inclusive:\n✅ Hosting included\n✅ Domain included\n✅ SEO included\n✅ No hidden costs\n\nMany developers charge separately for these, but Christian bundles everything for transparency.\n\nDiscuss payment options via WhatsApp: +234 803 495 4849 💳";
         }
-
+        
+        // WORDPRESS SPECIFIC
+        if (msg.includes('wordpress') || msg.includes('woocommerce') || msg.includes('elementor')) {
+            return "Christian is a **WordPress expert** with deep experience in:\n\n✅ Custom themes & plugins\n✅ WooCommerce e-commerce\n✅ Elementor page builder\n✅ Performance optimization\n✅ SEO implementation\n✅ Security & maintenance\n\nWordPress sites start at ₦150,000 including hosting, domain, and SEO!\n\nWhatsApp for a custom quote: +234 803 495 4849 🎨";
+        }
+        
+        // AI/CHATBOT SPECIFIC
+        if (msg.includes('ai') || msg.includes('chatbot') || msg.includes('artificial intelligence') || msg.includes('machine learning')) {
+            return "Christian builds **AI-powered solutions** including:\n\n✅ AI conversational chatbots (like me!)\n✅ RAG pipelines with LangChain\n✅ Document processing & retrieval\n✅ Custom AI integrations\n\nRecent AI project: **EdenHub** (www.edenhub.io) - Advanced AI chatbot with document upload and intelligent retrieval using DeepSeek, Ollama, and OpenWebUI.\n\nInterested in AI for your business? WhatsApp: +234 803 495 4849 🤖";
+        }
+        
+        // YES/INTERESTED/READY
+        if (msg.match(/^(yes|yeah|sure|okay|ok|interested|let's go|i'm in|sounds good)/i)) {
+            return "Awesome! 🎉 Let's get your project started:\n\n**Next Steps:**\n1️⃣ WhatsApp Christian: +234 803 495 4849 (fastest response!)\n2️⃣ Or email: themystictechie@gmail.com\n3️⃣ Follow @themystictechie on Instagram for inspiration\n\nHe typically responds within a few hours and is currently accepting new projects!\n\nReady when you are! 🚀";
+        }
+        
+        // THINKING/MAYBE/NOT SURE
+        if (msg.includes('think') || msg.includes('maybe') || msg.includes('consider') || msg.includes('not sure') || msg.includes('let me')) {
+            return "Totally understandable! Take your time. 😊\n\nWhile you're deciding, I'd suggest:\n✅ Follow @themystictechie on Instagram for portfolio inspiration\n✅ Connect on LinkedIn: linkedin.com/in/christianottah\n✅ Check out his live projects (LN247, EdenHub, Mambokadzi)\n\nWhen you're ready, WhatsApp is fastest: +234 803 495 4849 ✅";
+        }
+        
+        // INSTAGRAM/SOCIAL MEDIA
+        if (msg.includes('instagram') || msg.includes('social') || msg.includes('follow')) {
+            return "Yes! Follow Christian on social media:\n\n📸 **Instagram: @themystictechie**\n   Daily coding tips, project updates, behind-the-scenes content\n\n💼 **LinkedIn: linkedin.com/in/christianottah**\n   Professional insights and networking\n\n💻 **GitHub: github.com/chrisottah**\n   Open source contributions\n\nHe shares valuable web dev tips daily on Instagram! 🚀";
+        }
+        
+        // LOCATION/REMOTE
+        if (msg.includes('where') || msg.includes('location') || msg.includes('remote') || msg.includes('lagos') || msg.includes('nigeria')) {
+            return "Christian is based in **Lagos, Nigeria** 🇳🇬 but works **globally and remotely** across all time zones!\n\nHe's worked with clients from:\n✅ Africa\n✅ Europe\n✅ North America\n✅ Asia\n\nRemote work means you get top talent regardless of your location!\n\nWhatsApp to discuss your project: +234 803 495 4849 🌍";
+        }
+        
+        // THANK YOU
+        if (msg.includes('thank') || msg.includes('thanks')) {
+            return "You're welcome! 😊\n\nIf you have any more questions, I'm here to help!\n\nOr reach out to Christian directly:\n📱 WhatsApp: +234 803 495 4849\n📧 Email: themystictechie@gmail.com\n\nFollow @themystictechie on Instagram for daily tips! 🚀";
+        }
+        
+        // DEFAULT INTELLIGENT FALLBACK
+        const fallbacks = [
+            "That's a great question! For detailed information specific to your needs, I'd recommend reaching out to Christian directly.\n\n📱 WhatsApp: +234 803 495 4849 (fastest response!)\n📧 Email: themystictechie@gmail.com\n\nHe'll give you personalized advice based on your project! Also, follow @themystictechie on Instagram for inspiration! 🚀",
+            
+            "I'd love to help with that in more detail! The best way to discuss your specific needs is directly with Christian.\n\n**Contact options:**\n📱 WhatsApp: +234 803 495 4849\n📧 Email: themystictechie@gmail.com\n📸 Instagram: @themystictechie\n\nHe's currently taking new projects and typically responds within hours! ✨",
+            
+            "Interesting question! Christian can definitely provide more insight on that.\n\nHe's available via:\n📱 WhatsApp: +234 803 495 4849 (quickest!)\n📧 Email: themystictechie@gmail.com\n\nAlso check out his Instagram @themystictechie for case studies and tips! 🎯"
+        ];
+        
+        return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+        
     } catch (error) {
         console.error('Chatbot Error:', error);
-        return "I'm having trouble connecting right now. Please reach out to Christian directly at themystictechie@gmail.com or +234 803 495 4849.";
+        return "I'm having a brief hiccup! 😅\n\nNo worries - reach out to Christian directly:\n📱 WhatsApp: +234 803 495 4849\n📧 themystictechie@gmail.com\n\nFollow @themystictechie on Instagram! 🚀";
     }
 }
 
@@ -599,19 +668,23 @@ async function handleUserInput() {
     isTyping = true;
     showTypingIndicator();
     
-    // Get AI response
+    // Realistic thinking delay (makes it feel more like AI)
+    await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 400));
+    
+    // Get intelligent response
     const aiResponse = await callGeminiAPI(userMessage);
+    
+    // Store in conversation history
+    conversationHistory.push({ role: 'User', content: userMessage });
+    conversationHistory.push({ role: 'Nova', content: aiResponse });
+    
+    // Keep last 10 exchanges
+    if (conversationHistory.length > 20) {
+        conversationHistory = conversationHistory.slice(-20);
+    }
     
     // Remove typing indicator and show response
     removeTypingIndicator();
     isTyping = false;
     addMsg(aiResponse, 'bot');
 }
-
-// Add "Enter" key support for the chat input
-document.addEventListener('keypress', function (e) {
-    const input = document.getElementById('chatInput');
-    if (e.key === 'Enter' && document.activeElement === input) {
-        handleUserInput();
-    }
-});

@@ -96,7 +96,7 @@ Christian is an innovative Full Stack Software Developer with over 10 years of e
 ## SERVICES & PRICING
 
 ### 1. Simple Websites
-**Starting from ₦150,000 ($100)**
+**Starting from ₦200,000 ($150)**
 **Includes:**
 - Custom design and development
 - Domain name registration
@@ -116,7 +116,7 @@ Christian is an innovative Full Stack Software Developer with over 10 years of e
 ---
 
 ### 2. Blog Websites
-**Starting from ₦150,000 ($100)**
+**Starting from ₦200,000 ($150)**
 **Includes:**
 - Everything in Simple Websites package
 - Content management system
@@ -135,7 +135,7 @@ Christian is an innovative Full Stack Software Developer with over 10 years of e
 ---
 
 ### 3. E-commerce Websites
-**Starting from ₦200,000 ($150)**
+**Starting from ₦300,000 ($220)**
 **Includes:**
 - Everything in Simple Websites package
 - Payment gateway integration (Paystack, Flutterwave, etc.)
@@ -155,7 +155,7 @@ Christian is an innovative Full Stack Software Developer with over 10 years of e
 ---
 
 ### 4. Learning Management Systems (LMS)
-**Starting from ₦250,000 ($180)**
+**Starting from ₦350,000 ($250)**
 **Includes:**
 - Course creation and management
 - Student enrollment system
@@ -210,7 +210,7 @@ Christian is an innovative Full Stack Software Developer with over 10 years of e
 ---
 
 ### 7. UI/UX Design
-**Starting from ₦50,000 ($35)**
+**Starting from ₦100,000 ($72)**
 **Services:**
 - Wireframing
 - Prototyping in Figma
@@ -325,7 +325,7 @@ Self-hosted secure file-sharing platform.
 ### Example Conversation Flow
 
 **Visitor asks about website:**
-"Great question! Christian builds amazing websites starting from ₦150,000 ($100) - and that includes hosting, domain name, custom emails, and SEO setup. 
+"Great question! Christian builds amazing websites starting from ₦200,000 ($150) - and that includes hosting, domain name, custom emails, and SEO setup. 
 
 What type of website are you thinking about? Personal portfolio? Business? E-commerce?
 
@@ -334,9 +334,9 @@ Also, if you haven't already, follow Christian on Instagram @themystictechie for
 **Visitor asks about pricing:**
 "Absolutely! Here's the breakdown:
 
-✅ Simple Website: ₦150,000 ($100) - includes hosting, domain, SEO, emails
-✅ E-commerce: ₦200,000 ($150) - everything above + payment gateway
-✅ Learning Platform (LMS): ₦250,000 ($180)
+✅ Simple Website: ₦200,000 ($150) - includes hosting, domain, SEO, emails
+✅ E-commerce: ₦300,000 ($220) - everything above + payment gateway
+✅ Learning Platform (LMS): ₦350,000 ($250)
 ✅ Mobile Apps: Custom quote (usually ₦300k+)
 
 What's your budget range? I can suggest the perfect package.
@@ -383,7 +383,7 @@ BTW - Follow @themystictechie on Instagram to see his latest work and get inspir
 **"Too expensive"**
 "I understand budget is important! Here's the thing - Christian's packages are all-inclusive. Many developers charge separately for hosting (₦30k/year), domain (₦15k/year), and SEO (₦50k+). 
 
-His ₦150k package includes all of that PLUS the actual website. You're getting tremendous value.
+His ₦200k package includes all of that PLUS the actual website. You're getting tremendous value.
 
 Want to discuss a payment plan? WhatsApp him: +234 803 495 4849"
 
@@ -540,13 +540,13 @@ async function callGeminiAPI(userMessage) {
         if ((msg.includes('price') || msg.includes('cost') || msg.includes('how much') || msg.includes('charge') || msg.includes('fee')) && 
             (msg.includes('website') || msg.includes('site') || msg.includes('web')) &&
             !msg.includes('ecommerce') && !msg.includes('shop') && !msg.includes('store')) {
-            return "Great question! Christian builds amazing websites starting from ₦150,000 ($100) - and that includes:\n\n✅ Custom design & development\n✅ Domain name registration\n✅ Web hosting (1 year)\n✅ SEO setup\n✅ Custom email addresses\n✅ Mobile-responsive design\n✅ SSL certificate\n\nWhat type of website are you thinking about? Personal portfolio? Business?\n\nAlso, follow @themystictechie on Instagram for web dev tips! 🚀";
+            return "Great question! Christian builds amazing websites starting from ₦200,000 ($150) - and that includes:\n\n✅ Custom design & development\n✅ Domain name registration\n✅ Web hosting (1 year)\n✅ SEO setup\n✅ Custom email addresses\n✅ Mobile-responsive design\n✅ SSL certificate\n\nWhat type of website are you thinking about? Personal portfolio? Business?\n\nAlso, follow @themystictechie on Instagram for web dev tips! 🚀";
         }
         
         // PRICING - ECOMMERCE
         if ((msg.includes('price') || msg.includes('cost') || msg.includes('how much')) && 
             (msg.includes('ecommerce') || msg.includes('shop') || msg.includes('store') || msg.includes('online store'))) {
-            return "E-commerce websites start at ₦200,000 ($150) and include everything in the simple website package PLUS:\n\n✅ Payment gateway integration (Paystack, Flutterwave)\n✅ Product catalog management\n✅ Shopping cart functionality\n✅ Order management system\n✅ Inventory tracking\n✅ Customer accounts\n✅ Email notifications\n\nPerfect for online stores and marketplaces!\n\nMessage Christian on WhatsApp (+234 803 495 4849) to get started! 📱";
+            return "E-commerce websites start at ₦300,000 ($220) and include everything in the simple website package PLUS:\n\n✅ Payment gateway integration (Paystack, Flutterwave)\n✅ Product catalog management\n✅ Shopping cart functionality\n✅ Order management system\n✅ Inventory tracking\n✅ Customer accounts\n✅ Email notifications\n\nPerfect for online stores and marketplaces!\n\nMessage Christian on WhatsApp (+234 803 495 4849) to get started! 📱";
         }
         
         // PRICING - MOBILE APP
@@ -558,12 +558,12 @@ async function callGeminiAPI(userMessage) {
         // PRICING - LMS
         if ((msg.includes('price') || msg.includes('cost') || msg.includes('how much')) && 
             (msg.includes('lms') || msg.includes('learning') || msg.includes('course') || msg.includes('education'))) {
-            return "Learning Management Systems (LMS) start at ₦250,000 ($180) and include:\n\n✅ Course creation & management\n✅ Student enrollment system\n✅ Video hosting integration\n✅ Quiz & assessment tools\n✅ Progress tracking\n✅ Certificate generation\n✅ Payment integration\n\nPerfect for online course creators and educational institutions!\n\nWhatsApp Christian: +234 803 495 4849 🎓";
+            return "Learning Management Systems (LMS) start at ₦350,000 ($250) and include:\n\n✅ Course creation & management\n✅ Student enrollment system\n✅ Video hosting integration\n✅ Quiz & assessment tools\n✅ Progress tracking\n✅ Certificate generation\n✅ Payment integration\n\nPerfect for online course creators and educational institutions!\n\nWhatsApp Christian: +234 803 495 4849 🎓";
         }
         
         // GENERAL PRICING OVERVIEW
         if (msg.includes('price') || msg.includes('pricing') || msg.includes('cost') || msg.includes('budget')) {
-            return "Absolutely! Here's the breakdown:\n\n✅ Simple Website: ₦150,000 ($100) - includes hosting, domain, SEO, emails\n✅ Blog Website: ₦150,000 ($100) - everything above + CMS\n✅ E-commerce: ₦200,000 ($150) - everything + payment gateway\n✅ Learning Platform (LMS): ₦250,000 ($180)\n✅ Mobile Apps: Custom quote (usually ₦300k+)\n✅ UI/UX Design: ₦50,000 ($35)\n✅ Tech Consulting: ₦20,000/hour ($15/hour)\n\nWhat's your budget range? I can suggest the perfect package.\n\nQuick tip: Message Christian on WhatsApp (+234 803 495 4849) to get started today! 📱";
+            return "Absolutely! Here's the breakdown:\n\n✅ Simple Website: ₦200,000 ($150) - includes hosting, domain, SEO, emails\n✅ Blog Website: ₦200,000 ($150) - everything above + CMS\n✅ E-commerce: ₦300,000 ($220) - everything + payment gateway\n✅ Learning Platform (LMS): ₦350,000 ($250)\n✅ Mobile Apps: Custom quote (usually ₦300k+)\n✅ UI/UX Design: ₦100,000 ($72)\n✅ Tech Consulting: ₦20,000/hour ($15/hour)\n\nWhat's your budget range? I can suggest the perfect package.\n\nQuick tip: Message Christian on WhatsApp (+234 803 495 4849) to get started today! 📱";
         }
         
         // SERVICES OVERVIEW
@@ -599,14 +599,14 @@ async function callGeminiAPI(userMessage) {
         // PAYMENT/BUDGET CONCERNS
         if (msg.includes('payment') || msg.includes('pay') || msg.includes('afford') || msg.includes('expensive') || msg.includes('cheap')) {
             if (msg.includes('expensive') || msg.includes('too much')) {
-                return "I understand budget is important! Here's the thing - Christian's packages are **all-inclusive**. Many developers charge separately for:\n• Hosting: ₦30k/year\n• Domain: ₦15k/year\n• SEO: ₦50k+\n\nHis ₦150k package includes ALL of that PLUS the actual website. You're getting tremendous value.\n\nChristian also offers **flexible payment plans**! Want to discuss options?\n\nWhatsApp him: +234 803 495 4849 💳";
+                return "I understand budget is important! Here's the thing - Christian's packages are **all-inclusive**. Many developers charge separately for:\n• Hosting: ₦30k/year\n• Domain: ₦15k/year\n• SEO: ₦50k+\n\nHis ₦200k package includes ALL of that PLUS the actual website. You're getting tremendous value.\n\nChristian also offers **flexible payment plans**! Want to discuss options?\n\nWhatsApp him: +234 803 495 4849 💳";
             }
             return "Christian offers **flexible payment plans** to make projects accessible!\n\nAll packages are all-inclusive:\n✅ Hosting included\n✅ Domain included\n✅ SEO included\n✅ No hidden costs\n\nMany developers charge separately for these, but Christian bundles everything for transparency.\n\nDiscuss payment options via WhatsApp: +234 803 495 4849 💳";
         }
         
         // WORDPRESS SPECIFIC
         if (msg.includes('wordpress') || msg.includes('woocommerce') || msg.includes('elementor')) {
-            return "Christian is a **WordPress expert** with deep experience in:\n\n✅ Custom themes & plugins\n✅ WooCommerce e-commerce\n✅ Elementor page builder\n✅ Performance optimization\n✅ SEO implementation\n✅ Security & maintenance\n\nWordPress sites start at ₦150,000 including hosting, domain, and SEO!\n\nWhatsApp for a custom quote: +234 803 495 4849 🎨";
+            return "Christian is a **WordPress expert** with deep experience in:\n\n✅ Custom themes & plugins\n✅ WooCommerce e-commerce\n✅ Elementor page builder\n✅ Performance optimization\n✅ SEO implementation\n✅ Security & maintenance\n\nWordPress sites start at ₦200,000 including hosting, domain, and SEO!\n\nWhatsApp for a custom quote: +234 803 495 4849 🎨";
         }
         
         // AI/CHATBOT SPECIFIC
